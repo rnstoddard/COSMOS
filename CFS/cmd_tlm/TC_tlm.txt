@@ -1,0 +1,27 @@
+#Defining a new source of telemetry, for CFS, given new name, nature of the unit coming down, give it a name
+#path for both ~/cfs_demo/config/targets/CFS/cmd_tlm
+#at the start of the source append an item, call it this, here's what it is, this value, name, nature
+#then follow up with normal append items with these CCSDS values
+#should have an append for each structure defined in app_msg.h (tlmheader, uscmdcnt, uscmderrcnt)
+#should match the housekeeping telemetry packet in application
+
+TELEMETRY CFS TC_HKTLM BIG_ENDIAN "Housekeeping Packet Structure"
+  APPEND_ID_ITEM CCSDS_STREAMID 16 UINT 0x08BB "CCSDS Packet Identification" BIG_ENDIAN
+  APPEND_ITEM CCSDS_SEQUENCE 16 UINT "CCSDS Packet Sequence Control" BIG_ENDIAN
+  APPEND_ITEM CCSDS_LENGTH 16 UINT "CCSDS Packet Data Length" BIG_ENDIAN
+  APPEND_ITEM CCSDS_SECONDS 32 UINT "CCSDS Telemetry Secondary Header (seconds)"
+  APPEND_ITEM CCSDS_SUBSECS 16 UINT "CCSDS Telemetry Secondary Header (subseconds)"
+  APPEND_ITEM COMMAND_COUNTER 8 UINT "Command Counter" BIG_ENDIAN
+  APPEND_ITEM COMMAND_ERROR_COUNTER 8 UINT "Command Error Counter" BIG_ENDIAN
+  APPEND_ITEM WISE_TLM_PKTS_RXD 16 UINT "WISE TLM Packets Counter" LITTLE_ENDIAN
+  APPEND_ITEM TCA_Current_State 8 UINT "Current State of the TC App" LITTLE_ENDIAN
+    STATE READY 0 GREEN
+    STATE MONITORING 1 GREEN
+    STATE HEATING 2 YELLOW
+    STATE COOLING 3 YELLOW
+    STATE ERROR 4 RED
+  APPEND_ITEM TCA_Logging_State 8 UINT "Current Logging State" LITTLE_ENDIAN
+    STATE DEBUG 0 YELLOW
+    STATE INFO 1 GREEN
+    STATE WARNING 2 GREEN
+    STATE ERROR 3 GREEN
